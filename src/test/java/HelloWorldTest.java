@@ -41,5 +41,20 @@ public class HelloWorldTest {
       System.out.println(messages.get(1));
     }
 
+    @Test
+    public void testRedirect() {
+
+        Response response = RestAssured
+                .given()
+                .redirects()
+                .follow(false)
+                .when()
+                .get("https://playground.learnqa.ru/api/long_redirect")
+                .andReturn();
+
+        String locationHeader = response.getHeader("Location");
+        System.out.println(locationHeader);
+    }
+
 
 }
