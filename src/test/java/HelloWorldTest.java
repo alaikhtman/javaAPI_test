@@ -3,7 +3,6 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HelloWorldTest {
@@ -37,8 +36,8 @@ public class HelloWorldTest {
                 .get("https://playground.learnqa.ru/api/get_json_homework")
                 .jsonPath();
 
-      List<String> messages = response.getList("messages.message");
-      System.out.println(messages.get(1));
+        List<String> messages = response.getList("messages.message");
+        System.out.println(messages.get(1));
     }
 
     @Test
@@ -54,6 +53,26 @@ public class HelloWorldTest {
 
         String locationHeader = response.getHeader("Location");
         System.out.println(locationHeader);
+    }
+
+    @Test
+    public void testLongRedirect() {
+
+        String locationURL = "https://playground.learnqa.ru/api/long_redirect";
+
+        while (locationURL != null) {
+            Response response = RestAssured
+                    .given()
+                    .redirects()
+                    .follow(true)
+                    .when()
+                    .get(locationURL)
+                    .andReturn();
+
+            locationURL = response.header("Location");
+
+            response.prettyPrint();
+        }
     }
 
 
