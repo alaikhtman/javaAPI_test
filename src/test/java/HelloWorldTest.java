@@ -75,5 +75,42 @@ public class HelloWorldTest {
         }
     }
 
+    @Test
+    public void testLongTime() throws InterruptedException {
 
+        JsonPath responseWithoutQuery = RestAssured
+                .when()
+                .get("https://playground.learnqa.ru/ajax/api/longtime_job")
+                .jsonPath();
+
+        String token = responseWithoutQuery.get("token");
+        int seconds = responseWithoutQuery.get("seconds");
+
+        JsonPath responseUnreadyTask = RestAssured
+                .given()
+                .queryParam("token", token)
+                .when()
+                .get("https://playground.learnqa.ru/ajax/api/longtime_job")
+                .jsonPath();
+
+        String status = responseUnreadyTask.get("status");
+        System.out.println("Status for unready query = " + status);
+
+        Thread.sleep(seconds* 1000L);
+
+        JsonPath responseReadyTask = RestAssured
+                .given()
+                .queryParam("token", token)
+                .when()
+                .get("https://playground.learnqa.ru/ajax/api/longtime_job")
+                .jsonPath();
+
+        status = responseReadyTask.get("status");
+        String result = responseReadyTask.get("result");
+        System.out.println("Status for ready query = " + status);
+        System.out.println("Result for ready query = " + result);
+    }
 }
+
+
+
