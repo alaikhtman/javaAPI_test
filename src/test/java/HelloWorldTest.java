@@ -3,7 +3,9 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HelloWorldTest {
 
@@ -96,7 +98,7 @@ public class HelloWorldTest {
         String status = responseUnreadyTask.get("status");
         System.out.println("Status for unready query = " + status);
 
-        Thread.sleep(seconds* 1000L);
+        Thread.sleep(seconds * 1000L);
 
         JsonPath responseReadyTask = RestAssured
                 .given()
@@ -110,7 +112,68 @@ public class HelloWorldTest {
         System.out.println("Status for ready query = " + status);
         System.out.println("Result for ready query = " + result);
     }
+
+    @Test
+    public void testPassword() {
+
+        String[] passwords = new String[]{
+                "123456",
+                "Password",
+                "12345678",
+                "letmein",
+                "qwerty",
+                "12345",
+                "123456789",
+                "1234567",
+                "football",
+                "iloveyou",
+                "admin",
+                "welcome",
+                "monkey",
+                "login",
+                "abc123",
+                "starwars",
+                "123123",
+                "dragon",
+                "passw0rd",
+                "master",
+                "hello",
+                "freedom",
+                "whatever",
+                "qazwsx",
+                "trustno1"};
+
+        Map<String, String> data = new HashMap<>();
+        data.put("login", "super_admin");
+        for (String password : passwords) {
+            data.put("password", password);
+
+            Response response = RestAssured
+                    .given()
+                    .body(data)
+                    .when()
+                    .post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework")
+                    .andReturn();
+
+            String authCookie = response.getCookie("auth_cookie");
+
+            Map<String, String> cookies = new HashMap<>();
+            cookies.put("auth_cookie", authCookie);
+
+            Response response2 = RestAssured
+                    .given()
+                    .cookies(cookies)
+                    .get("https://playground.learnqa.ru/ajax/api/check_auth_cookie")
+                    .andReturn();
+
+            String answer = response2.asString();
+            if (!answer.equals("You are NOT authorized")) {
+                System.out.println("Correct password: " + password);
+            }
+        }
+    }
 }
+
 
 
 
