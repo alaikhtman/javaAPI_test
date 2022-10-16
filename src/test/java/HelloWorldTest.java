@@ -167,8 +167,10 @@ public class HelloWorldTest {
                     .andReturn();
 
             String answer = response2.asString();
+
             if (!answer.equals("You are NOT authorized")) {
                 System.out.println("Correct password: " + password);
+                break;
             }
         }
     }
