@@ -61,6 +61,7 @@ public class HelloWorldTest {
     public void testLongRedirect() {
 
         String locationURL = "https://playground.learnqa.ru/api/long_redirect";
+        int amountRedirects = 0;
 
         while (locationURL != null) {
             Response response = RestAssured
@@ -72,8 +73,11 @@ public class HelloWorldTest {
                     .andReturn();
 
             locationURL = response.header("Location");
+            amountRedirects += 1;
 
+            System.out.println("Amounts of redirections are: " + amountRedirects);
             response.prettyPrint();
+
         }
     }
 
