@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class HelloWorldTest {
 
 
@@ -178,6 +180,16 @@ public class HelloWorldTest {
             }
         }
     }
+
+    @Test
+    public void testLength() {
+        JsonPath response = RestAssured
+                .get("https://playground.learnqa.ru/api/get_json")
+                .jsonPath();
+
+        assertTrue(response.get("name").toString().length() > 15, "Length of name is less or equal to 15");
+    }
+
 }
 
 
