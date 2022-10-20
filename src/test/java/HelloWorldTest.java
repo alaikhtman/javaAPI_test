@@ -1,14 +1,14 @@
 import io.restassured.RestAssured;
+import io.restassured.http.Headers;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HelloWorldTest {
 
@@ -201,6 +201,46 @@ public class HelloWorldTest {
 
         assertEquals("HomeWork", cookies.keySet().stream().findFirst().get(), "Unexpected cookie");
         assertEquals("hw_value", cookies.get("HomeWork"), "Unexpected value in cookie");
+
+    }
+
+    @Test
+    public void testHeader() {
+        Response response = RestAssured
+                .get("https://playground.learnqa.ru/api/homework_cookie")
+                .andReturn();
+
+        Headers headers = response.headers();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss z", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MILLISECOND, -1300);
+        String today = sdf.format(cal.getTime());
+
+        SimpleDateFormat sdf2 = new SimpleDateFormat("E, dd-MMM-yyyy HH:mm:ss z", Locale.US);
+        sdf2.setTimeZone(TimeZone.getTimeZone("GMT"));
+        cal.add(Calendar.HOUR, -1);
+        cal.add(Calendar.DAY_OF_YEAR, 31);
+        String expireDay = sdf2.format(cal.getTime());
+
+
+        ArrayList<String> expectedHeaders = new ArrayList<String>();
+
+        expectedHeaders.add("Date=" + today);
+        expectedHeaders.add("Content-Type=text/html; charset=utf-8");
+        expectedHeaders.add("Content-Length=0");
+        expectedHeaders.add("Connection=keep-alive");
+        expectedHeaders.add("Keep-Alive=timeout=10");
+        expectedHeaders.add("Server=Apache");
+        expectedHeaders.add("Set-Cookie=HomeWork=hw_value; expires=" + expireDay + "; Max-Age=2678400; path=/; domain=playground.learnqa.ru; HttpOnly");
+        expectedHeaders.add("Cache-Control=max-age=0");
+        expectedHeaders.add("Expires=" + today);
+
+        for (int i = 0; i < expectedHeaders.size(); i++) {
+            assertEquals(expectedHeaders.get(i), headers.asList().get(i).toString(), "Unexpected header" + headers.asList().get(i));
+        }
+
 
     }
 
