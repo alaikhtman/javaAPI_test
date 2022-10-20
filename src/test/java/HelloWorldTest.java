@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -188,6 +189,19 @@ public class HelloWorldTest {
                 .jsonPath();
 
         assertTrue(response.get("name").toString().length() > 15, "Length of name is less or equal to 15");
+    }
+
+    @Test
+    public void testCookie() {
+        Response response = RestAssured
+                .get("https://playground.learnqa.ru/api/homework_cookie")
+                .andReturn();
+
+        Map<String, String> cookies = response.cookies();
+
+        assertEquals("HomeWork", cookies.keySet().stream().findFirst().get(), "Unexpected cookie");
+        assertEquals("hw_value", cookies.get("HomeWork"), "Unexpected value in cookie");
+
     }
 
 }
