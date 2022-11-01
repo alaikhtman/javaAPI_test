@@ -16,8 +16,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.HashMap;
 import java.util.Map;
 
-@Epic("Authorization cases")
-@Feature("Authorization")
+@Epic("Creation cases")
+@Feature("Creation")
 public class UserRegisterTest extends BaseTestCase {
 
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
@@ -82,7 +82,7 @@ public class UserRegisterTest extends BaseTestCase {
                 .makePostRequestCreateUser("https://playground.learnqa.ru/api/user/", userData);
 
         Assertions.assertResponseCodeEquals(responseCreateAuth, 400);
-        Assertions.assertResponseTextEquals(responseCreateAuth, "The following required params are missed: " +mandatoryField);
+        Assertions.assertResponseTextEquals(responseCreateAuth, "The following required params are missed: " + mandatoryField);
     }
 
 

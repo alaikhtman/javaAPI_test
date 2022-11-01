@@ -44,4 +44,13 @@ public class DataGenerator {
 
         return userData;
     }
+
+    public static Map<String, String> getAuthData(String email, String password) {
+        Map<String, String> authData = new HashMap<>();
+        authData.put("email", email);
+        authData.put("password", password);
+
+
+        return authData;
+    }
 }
