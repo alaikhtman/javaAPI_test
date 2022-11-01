@@ -76,5 +76,14 @@ public class ApiCoreRequests {
                 .andReturn();
     }
 
+    @Step("Make DELETE-request edit user")
+    public Response makeDeleteUser(String url, String token, String cookie) {
+        return given()
+                .header(new Header("x-csrf-token", token))
+                .cookie("auth_sid", cookie)
+                .delete(url)
+                .andReturn();
+    }
+
 
 }
