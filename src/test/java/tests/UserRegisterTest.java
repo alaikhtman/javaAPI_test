@@ -1,8 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
@@ -18,6 +16,7 @@ import java.util.Map;
 
 @Epic("Creation cases")
 @Feature("Creation")
+@Link("https://example.org")
 public class UserRegisterTest extends BaseTestCase {
 
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
@@ -25,6 +24,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test checks creation with existing email")
     @DisplayName("Test negative registration: existed email")
+    @Severity(SeverityLevel.NORMAL)
     public void testCreateUserWithExistingEmail() {
         String email = "vinkotov@example.com";
 
@@ -42,6 +42,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test checks successfully user creation ")
     @DisplayName("Test positive user creation")
+    @Severity(SeverityLevel.CRITICAL)
     public void testCreateUserSuccessfully() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 
@@ -55,6 +56,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test checks creation with incorrect email")
     @DisplayName("Test negative registration: incorrect email")
+    @Severity(SeverityLevel.NORMAL)
     public void testCreateUserWithIncorrectEmail() {
         String email = "testexample.com";
 
@@ -74,6 +76,7 @@ public class UserRegisterTest extends BaseTestCase {
     @ValueSource(strings = {"email", "password", "username", "firstName", "lastName"})
     @Description("This test checks creation without mandatory field")
     @DisplayName("Test negative registration: absence of mandatory field")
+    @Severity(SeverityLevel.NORMAL)
     public void testCreateUserWithoutMandatoryField(String mandatoryField) {
         Map<String, String> userData = new HashMap<>();
         userData.put(mandatoryField, null);
@@ -90,6 +93,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test checks creation with min firstName = 1")
     @DisplayName("Test negative registration: min firstName")
+    @Severity(SeverityLevel.MINOR)
     public void testCreateUserWithMinFirstName() {
         String firstName = DataGenerator.getStringWithLength(1);
 
@@ -107,6 +111,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @Description("This test checks creation with max firstName = 251")
     @DisplayName("Test negative registration: max firstName")
+    @Severity(SeverityLevel.MINOR)
     public void testCreateUserWithMaxFirstName() {
         String firstName = DataGenerator.getStringWithLength(251);
 

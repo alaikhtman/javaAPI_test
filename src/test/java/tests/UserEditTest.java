@@ -1,8 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
+import io.qameta.allure.*;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
@@ -16,12 +14,14 @@ import java.util.Map;
 
 @Epic("Edit cases")
 @Feature("Edit user")
+@Link("https://example.org")
 public class UserEditTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @Test
     @Description("This test checks successfully update firstname of user")
     @DisplayName("Test update user: with firstName")
+    @Severity(SeverityLevel.CRITICAL)
     public void testEditUsersDataFirstName() {
         //Create
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -49,6 +49,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test checks unsuccessfully update user without auth")
     @DisplayName("Test unsuccessfully update user: without auth")
+    @Severity(SeverityLevel.MINOR)
     public void testEditUsersWithoutAuth() {
         //Create
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -69,6 +70,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test checks unsuccessfully update of other user")
     @DisplayName("Test unsuccessfully update user: other user")
+    @Severity(SeverityLevel.NORMAL)
     public void testEditUsersDataWithOtherUser() {
         //Create
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -109,6 +111,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test checks unsuccessfully update email")
     @DisplayName("Test unsuccessfully update user: with incorrect email")
+    @Severity(SeverityLevel.NORMAL)
     public void testEditUsersDataIncorrectEmail() {
         //Create
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -134,6 +137,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @Description("This test checks unsuccessfully update firstName")
     @DisplayName("Test unsuccessfully update user: with incorrect firstName")
+    @Severity(SeverityLevel.MINOR)
     public void testEditUsersDataIncorrectFirstName() {
         //Create
         Map<String, String> userData = DataGenerator.getRegistrationData();

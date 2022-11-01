@@ -1,8 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
@@ -15,6 +13,7 @@ import java.util.Map;
 
 @Epic("Get cases")
 @Feature("Get user")
+@Link("https://example.org")
 public class UserGetTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
@@ -22,6 +21,7 @@ public class UserGetTest extends BaseTestCase {
     @Test
     @Description("This test checks get existing user without Auth Headers and Cookie")
     @DisplayName("Test  get user: without Auth")
+    @Severity(SeverityLevel.NORMAL)
     public void testGetUsersDataNotAuth() {
         Response responseUserData = apiCoreRequests.makeGetUserRequest("https://playground.learnqa.ru/api/user/2");
 
@@ -34,6 +34,7 @@ public class UserGetTest extends BaseTestCase {
     @Test
     @Description("This test checks get existing user with same Auth Headers and Cookie")
     @DisplayName("Test  get user: with same Auth")
+    @Severity(SeverityLevel.CRITICAL)
     public void testGetUsersDataAsSameUser() {
         Map<String, String> authData = DataGenerator.getAuthData("vinkotov@example.com", "1234");
         Response userLogin = apiCoreRequests.makeUserLogin("https://playground.learnqa.ru/api/user/login", authData);
@@ -52,6 +53,7 @@ public class UserGetTest extends BaseTestCase {
     @Test
     @Description("This test checks get existing user with  other Auth Headers and Cookie")
     @DisplayName("Test  get user: with other Auth")
+    @Severity(SeverityLevel.NORMAL)
     public void testGetUsersDataAsOtherUser() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         apiCoreRequests

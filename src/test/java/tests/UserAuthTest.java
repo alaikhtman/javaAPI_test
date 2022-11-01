@@ -1,7 +1,6 @@
 package tests;
 
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -17,6 +16,7 @@ import java.util.Map;
 
 @Epic("Authorization cases")
 @Feature("Authorization")
+@Link("https://example.org")
 public class UserAuthTest extends BaseTestCase {
 
     String cookie;
@@ -45,6 +45,7 @@ public class UserAuthTest extends BaseTestCase {
     }
 
     @Test
+    @Severity(SeverityLevel.CRITICAL)
     public void testAuthUser() {
         Response responseCheckAuth = RestAssured
                 .given()
@@ -58,6 +59,7 @@ public class UserAuthTest extends BaseTestCase {
 
     @ParameterizedTest
     @ValueSource(strings = {"cookie", "headers"})
+    @Severity(SeverityLevel.CRITICAL)
     public void testNegativeAuthUser(String condition) throws IllegalAccessException {
         RequestSpecification spec = RestAssured.given();
         spec.baseUri("https://playground.learnqa.ru/api/user/auth");

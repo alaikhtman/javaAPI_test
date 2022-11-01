@@ -1,6 +1,6 @@
 package tests;
 
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
@@ -12,12 +12,16 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+@Epic("Delete cases")
+@Feature("Delete user")
+@Link("https://example.org")
 public class DeleteUserTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @Test
     @Description("This test checks impossible to delete user with id2")
     @DisplayName("Test unsuccessfully delete user: id2")
+    @Severity(SeverityLevel.MINOR)
     public void testDeleteUsersId2() {
         Map<String, String> authData = DataGenerator.getAuthData("vinkotov@example.com", "1234");
         Response userLogin = apiCoreRequests.makeUserLogin("https://playground.learnqa.ru/api/user/login", authData);
@@ -36,6 +40,7 @@ public class DeleteUserTest extends BaseTestCase {
     @Test
     @Description("This test checks successfully deleting user")
     @DisplayName("Test successfully delete user")
+    @Severity(SeverityLevel.CRITICAL)
     public void testDeleteUsersDataWithSameUser() {
         //Create
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -61,6 +66,7 @@ public class DeleteUserTest extends BaseTestCase {
     @Test
     @Description("This test checks unsuccessfully deleting user with other user")
     @DisplayName("Test unsuccessfully delete user: other user")
+    @Severity(SeverityLevel.NORMAL)
     public void testDeleteUsersDataWithOtherUser() {
         //Create
         Map<String, String> userData = DataGenerator.getRegistrationData();
