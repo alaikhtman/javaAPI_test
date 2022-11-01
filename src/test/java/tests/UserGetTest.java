@@ -71,4 +71,6 @@ public class UserGetTest extends BaseTestCase {
         Assertions.assertJsonHasNoField(responseUserData, "email");
 
     }
+
+
 }

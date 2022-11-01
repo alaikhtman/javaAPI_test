@@ -65,6 +65,7 @@ public class UserRegisterTest extends BaseTestCase {
         Response responseCreateAuth = apiCoreRequests
                 .makePostRequestCreateUser("https://playground.learnqa.ru/api/user/", userData);
 
+
         Assertions.assertResponseCodeEquals(responseCreateAuth, 400);
         Assertions.assertResponseTextEquals(responseCreateAuth, "Invalid email format");
     }

@@ -53,4 +53,11 @@ public class DataGenerator {
 
         return authData;
     }
+
+    public static Map<String, String> getEditData(String field, String value) {
+        Map<String, String> editData = new HashMap<>();
+        editData.put(field, value);
+
+        return editData;
+    }
 }
